@@ -47,7 +47,7 @@ RUN wget https://github.com/oscript-library/ovm/releases/download/v${OVM_VERSION
   && echo 'mono /usr/local/bin/ovm.exe "$@"' | tee /usr/local/bin/ovm \
   && chmod +x /usr/local/bin/ovm \
   && ovm install ${OSCRIPT_VERSION} \
-  && ovm use ${OSCRIPT_VERSION}
+  && ovm use ${OSCRIPT_VERSION} \
   && opm i opm
 
 ENV OSCRIPTBIN=/root/.local/share/ovm/current/bin
