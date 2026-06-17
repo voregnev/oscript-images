@@ -1,8 +1,9 @@
 #!/bin/bash
 
 # Путь к .env файлу
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ENV_FILE="$SCRIPT_DIR/.env"
+_load_env_SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+_load_env_PROJECT_ROOT="$(cd "$_load_env_SCRIPT_DIR/.." && pwd)"
+ENV_FILE="$_load_env_PROJECT_ROOT/.env"
 
 # Проверяем, существует ли файл
 if [ ! -f "$ENV_FILE" ]; then

@@ -1,7 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)"
+PROJECT_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 if [ -z "${CI:-}" ]; then
     echo "The script is not running in CI"
     source "${SCRIPT_DIR}/../scripts/load_env.sh"	
@@ -17,9 +18,9 @@ then
     docker system prune -af
 fi
 
-last_arg="."
+last_arg="${PROJECT_ROOT}"
 if [[ ${NO_CACHE:-} = "true" ]] ; then
-	last_arg="--no-cache ."
+	last_arg="--no-cache ${PROJECT_ROOT}"
 fi
 
 onec_installer_downloader_version="${ONEC_INSTALLER_DOWNLOADER_VERSION}"

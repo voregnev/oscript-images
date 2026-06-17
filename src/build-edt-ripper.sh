@@ -1,7 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)"
+PROJECT_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 if [ -z "${CI:-}" ]; then
     echo "The script is not running in CI"
     source "${SCRIPT_DIR}/../scripts/load_env.sh"	
@@ -17,9 +18,9 @@ then
     docker system prune -af
 fi
 
-last_arg="."
+last_arg=("${PROJECT_ROOT}")
 if [[ ${NO_CACHE:-} = "true" ]] ; then
-	last_arg="--no-cache ."
+	last_arg=("--no-cache" "${PROJECT_ROOT}")
 fi
 
 edt_ripper_version="latest"
@@ -31,7 +32,7 @@ docker build \
     --build-arg DOCKER_LOGIN="${DOCKER_LOGIN}" \
     -t "${DOCKER_REGISTRY_URL}/${DOCKER_LOGIN}/edt-ripper:${edt_ripper_version}" \
     -f "${SCRIPT_DIR}/edt-ripper/Dockerfile" \
-    ${last_arg}
+    "${last_arg[@]}"
 
 if ./tests/test-edt-ripper.sh; then
     container_version=$(docker run --rm  "${DOCKER_REGISTRY_URL}/${DOCKER_LOGIN}/edt-ripper:${edt_ripper_version}" --version | tail -n1)

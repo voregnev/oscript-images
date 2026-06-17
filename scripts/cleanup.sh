@@ -10,7 +10,7 @@ fi
 
 # Очистка переменных среды из .env
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ENV_FILE="$SCRIPT_DIR/.env"
+ENV_FILE="$(cd "$SCRIPT_DIR/.." && pwd)/.env"
 if [ -f "$ENV_FILE" ]; then
     while IFS='=' read -r var _; do
         # Удаляем пробелы и префикс export, если есть

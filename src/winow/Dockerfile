@@ -6,7 +6,7 @@ ARG BASE_TAG=stable
 FROM ${DOCKER_REGISTRY_URL}/${DOCKER_LOGIN}/${BASE_IMAGE}:${BASE_TAG}
 LABEL maintainer="Iosif Pravets <i@pravets.ru>"
 
-RUN opm i winow winow-cli
+RUN opm i opm winow winow-cli
 WORKDIR /app
 COPY ./src/winow/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
