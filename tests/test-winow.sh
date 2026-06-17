@@ -86,7 +86,7 @@ test_winow_is_installing_deps() {
   actual=$(docker run \
     --rm \
     --name $container_name \
-    -v "${SCRIPT_DIR}/../tests/winow/hello:/app" \
+    -v "${SCRIPT_DIR}/winow/hello:/app" \
     ${DOCKER_REGISTRY_URL}/${DOCKER_LOGIN}/winow:latest -deps 2>/dev/null | head -n1)
 
   if assert_eq "$expected" "$actual"; then
